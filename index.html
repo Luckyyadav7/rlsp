@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Please Don't Complain</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #complainMsg {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 25px;
+      font-size: 20px;
+      color: black;
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      display: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #complainMsg button {
+      margin-left: 15px;
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #complainMsg button:hover {
+      background-color: #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="complainMsg">
+    <span id="complainText">Please don't complain.</span>
+    <button onclick="hideMessage()">OK</button>
+  </div>
+
+  <script>
+    const msgBox = document.getElementById('complainMsg');
+    const text = document.getElementById('complainText');
+
+    const colors = [
+      "#f28b82", "#fbbc04", "#fff475", "#ccff90",
+      "#a7ffeb", "#cbf0f8", "#aecbfa", "#d7aefb"
+    ];
+
+    let intervals = [7000, 45000, 60000, 120000, 180000]; // in ms
+
+    function showMessage(duration = 3000) {
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      msgBox.style.backgroundColor = color;
+      msgBox.style.display = 'block';
+      setTimeout(() => {
+        hideMessage();
+      }, duration);
+    }
+
+    function hideMessage() {
+      msgBox.style.display = 'none';
+    }
+
+    function scheduleMessages() {
+      let totalTime = 0;
+      for (let i = 0; i < intervals.length; i++) {
+        totalTime += intervals[i];
+        setTimeout(() => {
+          showMessage(i === 0 ? 5000 : 2000); // 1st time = 3s, others = 2s
+        }, totalTime);
+      }
+    }
+
+    // Start after page load
+    window.onload = () => {
+      setTimeout(() => {
+        showMessage(5000); // First message after 7s
+        scheduleMessages();
+      }, 7000);
+    };
+  </script>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Auto Refresh Message with Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #refreshMessage {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(270deg, #FFD700, #00BFFF, #FF69B4, #32CD32, #FF4500);
+      background-size: 1000% 1000%;
+      animation: gradientMove 10s ease infinite;
+      color: black;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #countdown {
+      font-weight: bold;
+      margin-left: 10px;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="refreshMessage">
+    "Once you refresh it, everything will be fine."
+
+    <span id="countdown">(7)</span>
+  </div>
+
+  <script>
+    const msg = document.getElementById("refreshMessage");
+    const countdown = document.getElementById("countdown");
+
+    let seconds = 7;
+    let interval = setInterval(() => {
+      seconds--;
+      countdown.textContent = `(${seconds})`;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        msg.classList.add("hidden");
+
+        // Re-show after 45 seconds (only once)
+        setTimeout(() => {
+          seconds = 7;
+          countdown.textContent = `(${seconds})`;
+          msg.classList.remove("hidden");
+
+          let secondInterval = setInterval(() => {
+            seconds--;
+            countdown.textContent = `(${seconds})`;
+            if (seconds <= 0) {
+              clearInterval(secondInterval);
+              msg.classList.add("hidden");
+            }
+          }, 1000);
+        }, 45000);
+      }
+    }, 1000);
+  </script>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      padding: 30px 20px;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .important-button {
+      background-color: #ff0055;
+      color: #1029e3;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #1af970;
+      transition: 0.3s;
+    }
+
+    .important-button:hover {
+      background-color: #fff;
+      color: #ff0055;
+      box-shadow: 0 0 20px #000700;
+    }
+
+    .message-box {
+      display: none;
+      background: linear-gradient(135deg, #faf9ff, #1E3A8A, #323931, #EC4899, #16120d);
+      background-size: 400% 400%;
+      animation: gradientMove 10s ease infinite;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      max-width: 800px;
+      margin: 30px auto;
+    }
+
+    .message span {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+    .glow1 {
+      color: #ff0404;
+      text-shadow: 0 0 10px #19b63b;
+    }
+
+    .glow2 {
+      color: #37ff6c;
+      text-shadow: 0 0 10px #FF6D28;
+    }
+
+    .glow3 {
+      color: #9747ff;
+      text-shadow: 0 0 10px #b915ff;
+    }
+
+    .glow4 {
+      color: #005fbe;
+      text-shadow: 0 0 10px #FF007F;
+    }
+
+    .glow5 {
+      color: #026f93;
+      text-shadow: 0 0 10px #00E0FF;
+    }
+
+    .extra-message {
+      margin-top: 20px;
+      font-size: 17px;
+      background: #000;
+      color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      text-shadow: 0 0 5px #aaa;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .extra-message .color1 {
+      color: #d7a117;
+      font-weight: bold;
+    }
+
+    .extra-message .color2 {
+      color: #10B981;
+    }
+
+    .extra-message .color3 {
+      color: #60A5FA;
+    }
+
+    .extra-message .color4 {
+      color: #EC4899;
+    }
+
+    .extra-message .color5 {
+      color: #F87171;
+    }
+
+    .showmore-button,
+    .back-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .showmore-button {
+      background-color: #00E0FF;
+      color: #000;
+      box-shadow: 0 0 10px #00E0FF;
+    }
+
+    .back-button {
+      background-color: #F87171;
+      color: #fff;
+      box-shadow: 0 0 10px #F87171;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button class="last message" onclick="showMessageBox()">last message ise last me see</button>
+
+  <div class="message-box" id="messageBox">
+    <div class="message">
+      <span class="glow1">At first, I started coding just to look cool in front of you.</span>
+      <span class="glow3">But now, I’m actually enjoying it.</span>
+      <span class="glow3">I’ve written over 800 lines of code—just for you.</span>
+      <span class="glow4">I covered a 30-hour video course in just 6 days to make this.</span>
+      <span class="glow5">And honestly, this is just 5% of what there is to learn in coding.</span>
+      <span class="glow1">There’s so much more I want to say...</span>
+      <span class="glow2">But above all, I want you to know this:</span>
+      <span class="glow3">I truly believe that because of me,</span>
+      <span class="glow4">your studies won’t be affected even by 0.1%.</span>
+      <span class="glow5">And neither will mine.</span>
+    </div>
+    <button class="showmore-button" onclick="showExtraMessage(event)">Show More</button>
+
+    <div class="extra-message" id="extraMessage">
+      <p><span class="color1">The most important thing I want to tell you is this:</span><br>
+        <span class="color2">I truly believe from the bottom of my heart</span> that because of me, <span
+          class="color3">your studies won’t be affected even by 0.1%</span>, and <span class="color4">neither will
+          mine</span>.
+      </p>
+
+      <p><span class="color5">Everything else I wanted to say, I’ve written clearly above.</span><br>
+        If you still have any questions in your mind, <span class="color2">feel free to ask</span>.<br>
+        If you want, you can even <span class="color1">give me a final warning</span>.<br>
+        After that, <span class="color4">I swear on my life</span> — I will never say anything to you again, and <span
+          class="color5">I will never meet you in Bodhgaya</span> either.</p>
+
+      <p>I’ve received <span class="color3">permission from home</span> to go to Patna.<br>
+        Now, whenever we feel like it, <span class="color2">we can go to Patna</span>.<br>
+        But my real dream is to <span class="color1">go to Delhi</span>.<br>
+        Until then, <span class="color5">I’ll stay here (in Bodhgaya) for 1–2 more years</span>.</p>
+
+      <button class="back-button" onclick="window.location.href='index.html'">← Back</button>
+    </div>
+  </div>
+
+  <script>
+    function showMessageBox() {
+      document.getElementById('messageBox').style.display = 'block';
+    }
+
+    function showExtraMessage(event) {
+      event.stopPropagation();
+      document.getElementById('extraMessage').style.display = 'block';
+      event.target.style.display = 'none';
+    }
+  </script>
+
+
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>last Message to you please don’t coomplent </title>
+  </head>
+
+  <body>
+
+  </body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message from me </title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      max-width: 90vw;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    .glow1 {
+      color: #f90e3d;
+      text-shadow: 0 0 8px #87CEEB;
+      font-weight: bold;
+    }
+
+    .glow2 {
+      color: #5703ff;
+      text-shadow: 0 0 8px #00ff44;
+      font-weight: bold;
+    }
+
+    .glow3 {
+      color: #ff0000;
+      text-shadow: 0 0 8px #69ffa0;
+      font-weight: bold;
+    }
+    }
+
+    .glow4 {
+      color: #ff3c00;
+      text-shadow: 0 0 8px #e5ff00;
+      font-weight: bold;
+    }
+
+    .btn-nav {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #923255;
+      color: #fff;
+      border: 2px solid #eeff00;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #57ffb6;
+      color: #000;
+      box-shadow: 0 0 10px #fff704, 0 0 20px #12d7c0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page active" id="page1">
+    <div class="message-box">
+      <p><span class="glow">I understand that your parents </span><span class="glow1">trust you</span>.</p>
+      <p>And I <span class="glow2">respect that deeply</span>. That’s why I’m saying this <span
+          class="glow3">calmly</span> and <span class="glow4">carefully</span>...</p>
+      <p><span class="glow4">Yaar</span> <span class="glow2">pure</span> <span class="glow5">5 hour</span> <span
+          class="glow3">lage hai</span> <span class="glow1"><br>don’t complent</span>.</p>
+      <p>Please just <span class="glow5">read this whole message once</span>—no rush, no pressure.</p>
+      <p>It’s not long. This is just a <span class="glow1">demo</span> — a glimpse of my thoughts.</p>
+      <p>Because I don’t have your <span class="glow2">permission</span>, I’m not writing <span class="glow3">everything
+          right now</span>.</p>
+    </div>
+    <h2 class="glow">Please don’t complain.</h2>
+
+    <p>
+      <span style="color: rgb(156, 249, 130);">It’s better</span>
+      <span style="color: rgb(167, 255, 167);">to take a risk once</span>
+      <span style="color: orange;">than to live life</span>
+      <span style="color: rgb(255, 29, 29);">with regret.</span>
+    </p>
+    <div style="background: linear-gradient(to right, #000000, #d8e9cc); padding: 10px; border-radius: 10px;">
+      <p>
+        <span style="color: rgb(255, 70, 70);">I can't talk to anyone</span>
+        <span style="color: rgb(255, 17, 168);">because if someone refuses in front of me, it really hurts</span>
+        <span style="color: rgb(0, 119, 255);">and makes me overthink a lot.</span>
+      </p>
+    </div>
+
+
+    <p>I want all my work done — no matter how small the task is.<br>
+      I start everything on Saturdays, and in my life, 80% of the things I begin end up successful.</p>
+    <p>But the day we planned to talk, you were absent.<br>
+      Today is neither my favorite day… nor a favorite date.</p>
+    <div class="btn-nav">
+      <button onclick="nextPage()">Next ⟶</button>
+    </div>
+  </div>
+
+  <div class="page" id="page2">
+    <h3 class="glow1">Now, here are my direct questions to you:</h3>
+
+    <p>What’s your name?</p>
+    <p>How many more days will you stay in the library?</p>
+    <p>In this week — Yes or No?</p>
+    <p>Not now, but in the future — Yes or No?</p>
+    <p>Or is it never?</p>
+    <p>not possibe</p>
+    <div class="btn-nav">
+      <button onclick="prevPage()">⟵ Previous</button>
+      <button onclick="nextPage()">Next ⟶</button>
+    </div>
+  </div>
+
+  <div class="page" id="page3">
+    <!-- Place full original third page content here -->
+    <h2 class="glow3">Full Message Section</h2>
+    <p>
+      <!DOCTYPE html>
+      <html lang="en">
+
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Message from me</title>
+        <style>
+          body {
+            background-color: #f5ffbd;
+            color: #eb2e2e;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+          }
+
+          .message-box {
+            max-width: 90vw;
+            margin-bottom: 50px;
+            animation: waveIn 1s ease-out;
+          }
+
+          @keyframes waveIn {
+            0% {
+              transform: translateY(30px) rotate(-2deg);
+              opacity: 0;
+            }
+
+            100% {
+              transform: translateY(0) rotate(0deg);
+              opacity: 1;
+            }
+          }
+
+          .glow1 {
+            color: #dc159d;
+            text-shadow: 0 0 8px #87CEEB;
+            font-weight: bold;
+          }
+
+          .glow2 {
+            color: #6df448a9;
+            text-shadow: 0 0 8px #FFD700;
+            font-weight: bold;
+          }
+
+          .glow3 {
+            color: #34ff15;
+            text-shadow: 0 0 8px #ff6969;
+            font-weight: bold;
+          }
+
+          .glow4 {
+            color: #ff0000;
+            text-shadow: 0 0 8px #00FA9A;
+            font-weight: bold;
+          }
+
+          .glow5 {
+            color: #00ff51;
+            text-shadow: 0 0 8px #FFA07A;
+            font-weight: bold;
+          }
+
+          .caption {
+            font-size: 1.8rem;
+            margin: 40px auto;
+            position: relative;
+            min-height: 6rem;
+            word-wrap: break-word;
+            max-width: 90vw;
+          }
+
+          .word {
+            opacity: 0;
+            display: inline-block;
+            margin: 0 3px;
+            cursor: default;
+            font-weight: normal;
+            transition: opacity 0.4s ease;
+          }
+
+          .navigation {
+            margin-top: auto;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            max-width: 80vw;
+          }
+
+          button,
+          .show-btn {
+            background-color: #923255;
+            color: #fff;
+            border: 2px solid #eeff00;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+          }
+
+          button:hover,
+          .show-btn:hover {
+            background-color: #57ffb6;
+            color: #000;
+            box-shadow: 0 0 10px #fff704, 0 0 20px #12d7c0;
+          }
+
+          .full-text {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #111;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+            text-align: left;
+            line-height: 1.8rem;
+            font-size: 1rem;
+          }
+
+          @media (max-width: 500px) {
+            .full-text {
+              font-size: 1rem;
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <!-- Auto Typing Caption Box -->
+        <div id="captionBox" class="caption"></div>
+
+        <div class="navigation">
+          <button onclick="prevCaption()">⟵ Previous</button>
+          <button id="stopBtn" onclick="toggleAuto()">⏸ Stop</button>
+          <button onclick="nextCaption()">Next ⟶</button>
+        </div>
+
+        <!-- Fixed Static Message Section -->
+        <div class="message-box" <p>I understand that your parents <span class="glow1">trust you</span>.
+    </p>
+    <p>And I <span class="glow2">respect that deeply</span>. That’s why I’m saying this <span
+        class="glow3">calmly</span> and <span class="glow4">carefully</span>...</p>
+    <p>Please just <span class="glow5">read this whole message once</span>—no rush, no pressure.</p>
+    <p>It’s not long. This is just a <span class="glow1">demo</span> — a glimpse of my thoughts.</p>
+    <p>Because I don’t have your <span class="glow2">permission</span>, I’m not writing <span class="glow3">everything
+        right now</span>.</p>
+  </div>
+
+  <!-- Button to show full message -->
+  <button class="show-btn" onclick="showFullText()">📩 Show Full Message</button>
+
+  <!-- Hidden Full Text Box -->
+  <div id="fullText" class="full-text">
+    🛑 <span class="glow1">Important Request</span> – <span class="glow2">Please don’t complain</span>. Everyone
+    deserves a <span class="glow3">chance</span>.<br><br>
+
+    I respect everyone. I’m not here to hurt or cross limits.<br><br>
+    <span class="glow1">trust you</span>.<br>
+    And I <span class="glow2">respect that deeply</span>. That’s why I’m saying this <span class="glow3">calmly</span>
+    and <span class="glow4">carefully</span>...<br><br>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Message</title>
+      <style>
+        body {
+          background-color: #000;
+          color: #fff;
+          font-family: 'Segoe UI', sans-serif;
+          padding: 40px;
+          line-height: 1.6;
+        }
+
+        .glow {
+          color: #ff0000;
+          text-shadow: 0 0 10px #00ff44, 0 0 20px #00ffff;
+          font-weight: bold;
+        }
+
+        #message-container {
+          display: none;
+          background-color: #ffe7ff;
+          color: #000;
+          padding: 20px;
+          border-radius: 15px;
+          margin-top: 25px;
+        }
+
+        #toggleBtn {
+          background-color: #6dff2a;
+          color: #003cff;
+          border: 2px solid #ff006a;
+          padding: 10px 25px;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 12px;
+          transition: 0.3s;
+        }
+
+        #toggleBtn:hover {
+          background-color: #04ff00;
+          color: #000;
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <button id="toggleBtn" onclick="toggleMessage()">5days click here 2 times</button>
+
+      <div id="message-container">
+        <p>I don’t usually use <span class="glow">Facebook</span> or <span class="glow">Instagram</span> since 5
+          years, but around <span class="glow">5 days ago</span>, I installed both apps just to search for you
+          through <span class="glow"> pwn Bhaiya's</span> account.</p>
+        <p>I couldn’t find your profile, but I did come across an account with the username <span
+            class="glow">914sweety_yadav</span>, so I followed it.</p>
+        <p style="color: #dcff71; background-color: #ec0000; padding: 10px; border-radius: 8px;">
+          "If you use <span class="glow2">Instagram</span>, please send a message to rlsp_yadav9143 — just say
+          'yes' or 'no'.<br>
+          Don’t worry, after your reply, I will permanently delete my Instagram account.<br>
+          I promise I will never message you again in the future."<br>
+          <strong>I only use YouTube — I don't use any other social media apps.</strong>
+        </p>
+
+        <p>Initially, my follow request wasn’t accepted, but later the username was changed to <span
+            class="glow">riya_yadav</span>, and then my request got accepted.</p>
+        <p>After that, I noticed the account had a Facebook profile linked to it from <span class="glow">Bodh
+            Gaya</span>.</p>
+        <p>That’s when I thought—maybe this could be your account. I’m not sure… but maybe.</p>
+        <div id="message-container" style="background-color: #2aec8e; padding: 25px; border-radius: 12px;">
+          <h2><span class="glow">About Me –</span></h2>
+
+          <p>I'm the kind of person who doesn’t <span class="glow">trust</span> easily, nor do I connect with
+            people quickly.<br>
+            <span class="highlight">मैं ऐसा इंसान हूँ</span> जो बहुत जल्दी किसी पर <span class="glow">भरोसा</span>
+            नहीं करता और ना ही किसी से जल्दी जुड़ता हूँ।
+          </p>
+
+          <p>In my entire 17 years of life, I’ve made only 7 <span class="glow">true friends</span>...</p>
+
+          <p>Out of those, I now feel truly <span class="glow">connected</span> to only 3...</p>
+
+          <p>And honestly, I don’t even feel like talking to new people anymore...</p>
+
+          <p>I don’t mix with people easily—whether it’s at the <span class="glow">library</span> or home...</p>
+
+          <p>I usually stay alone in my room...</p>
+
+          <p>Even if I start talking to someone, it takes me a long time to <span class="glow">connect</span> with
+            them deeply...</p>
+
+          <p>There was no girl before, and there won’t be one after either. <span class="glow">You are my first
+              and last.</span></p>
+
+          <p>Even if you say "no," I won’t look at anyone else—at least not for the next four years...</p>
+
+          <p>I’m the kind of person who can give up anything—no matter how valuable or <span
+              class="glow">addictive</span> it may be...</p>
+
+          <p>There's even a story behind that, which I can’t share due to <span class="glow">privacy</span>…</p>
+
+          <p>Movies, songs, social media, even people—nothing <span class="glow">controls</span> me...</p>
+
+          <p>I’m not addicted to anything...</p>
+
+          <p>I respect everyone—and especially your <span class="glow">privacy</span>...</p>
+
+          <p>I’ve never taken any photo of you, from any app or angle...</p>
+
+          <p>I never lie. Everything I’ve said is <span class="glow">true</span>...</p>
+
+          <p>Yes, once—out of curiosity—I did try to access the library's CCTV...</p>
+
+          <p>But the same day, my laptop crashed... because I forgot to use the pendrive...</p>
+
+          <p>Since then, I never tried again...</p>
+
+          <p>That’s all I can say…<br>बस... इससे ज़्यादा कुछ कह नहीं सकता।</p>
+
+          <p><span class="glow">Thank you. / धन्यवाद।</span></p>
+        </div>
+
+        <script>
+          function toggleMessage() {
+            const message = document.getElementById("message-container");
+            const button = document.getElementById("toggleBtn");
+            if (message.style.display === "none") {
+              message.style.display = "block";
+              button.innerText = "Show Less";
+            } else {
+              message.style.display = "none";
+              button.innerText = "5 days before";
+            }
+          }
+        </script>
+
+        <br><br>
+
+        <p>There’s a lot I want to say…</p>
+        <p>But I <span class="glow">can’t</span> —</p>
+        <p>Not because I don’t <span class="glow">trust</span> you,</p>
+        <p>But because I don’t have your <span class="glow">permission</span>.</p>
+        <p>And yes… some of it is my own <span class="glow">privacy</span>,</p>
+        <p>My own <span class="glow">space</span>, my own <span class="glow">reasons</span>.</p>
+        <br>
+        <p>If I ever <span class="glow">disturbed</span> you because of me, I’m truly <span class="glow">sorry</span>.
+        </p>
+        <p>And <span class="glow">thank you so much</span> for giving me your <span class="glow">charger</span> on
+          <span class="glow">27th June</span> — I really appreciate it.
+        </p>
+
+        <h2><span class="glow">About Me – </span></h2>
+
+
+        <p>I'm the kind of person who doesn’t <span class="glow">trust</span> easily, nor do I connect with people
+          quickly.<br>
+          <span class="highlight">मैं ऐसा इंसान हूँ</span> जो बहुत जल्दी किसी पर <span class="glow">भरोसा</span>
+          नहीं करता और ना ही किसी से जल्दी जुड़ता हूँ।
+        </p>
+
+        <p>In my entire 17 years of life, I’ve made only 7 <span class="glow">true friends</span>—3 from CBSE, 3
+          from Bihar Board, and 1 from my neighborhood.<br>
+          अपनी पूरी 17 साल की ज़िंदगी में मैंने सिर्फ 7 <span class="glow">सच्चे दोस्त</span> बनाए हैं…</p>
+
+        <p>Out of those, I now feel truly <span class="glow">connected</span> to only 3. The rest? No strong bond
+          remains.<br>
+          अब सिर्फ 3 लोगों से ही <span class="glow">सच्चा जुड़ाव</span> रह गया है। बाकियों से कोई खास रिश्ता नहीं
+          बचा।</p>
+
+        <p>And honestly, I don’t even feel like talking to new people anymore.<br>
+          और सच कहूँ तो अब किसी नए से बात करने का मन भी नहीं करता।</p>
+
+        <p>I don’t mix with people easily—whether it’s at the <span class="glow">library</span> or home.<br>
+          मैं जल्दी किसी से घुलता-मिलता नहीं — चाहे वह <span class="glow">लाइब्रेरी</span> हो या घर।</p>
+
+        <p>I usually stay alone in my room. I only go to the library just for the sake of it… not because my heart
+          wants to.<br>
+          ज़्यादातर समय मैं अपने कमरे में अकेले ही रहता हूँ। लाइब्रेरी भी बस यूँ ही चला जाता हूँ... <span
+            class="highlight">दिल से नहीं।</span></p>
+
+        <p>Even if I start talking to someone, it takes me a long time to <span class="glow">connect</span> with
+          them deeply.<br>
+          किसी से बात शुरू भी कर दूँ, तो <span class="highlight">दिल से जुड़ने</span> में बहुत समय लगता है।</p>
+
+        <p>There was no girl before, and there won’t be one after either. <span class="glow">You are my first and
+            last.</span><br>
+          पहले कोई लड़की नहीं थी, और बाद में भी कोई नहीं होगी। <span class="glow">तुम ही मेरी पहली और आख़िरी
+            हो।</span></p>
+
+        <p>Even if you say "no," I won’t look at anyone else—at least not for the next four years.<br>
+          अगर तुम "ना" भी कह दो, तब भी मैं किसी और की तरफ नहीं देखूंगा — <span class="highlight">कम से कम अगले चार
+            साल तक तो बिल्कुल नहीं।</span></p>
+
+        <p>I’m the kind of person who can give up anything—no matter how valuable or <span class="glow">addictive</span>
+          it may be.<br>
+          मैं ऐसा इंसान हूँ जो किसी भी चीज़ को छोड़ सकता है — चाहे वो कितनी भी कीमती हो या <span class="glow">लत</span>
+          जैसी क्यों न हो।</p>
+
+        <p>There's even a story behind that, which I can’t share due to <span class="glow">privacy</span>… it was
+          about a boy, not a girl.<br>
+          इसके पीछे एक कहानी है, जो मैं <span class="glow">प्राइवेसी</span> की वजह से बता नहीं सकता…</p>
+
+        <p>Movies, songs, social media, even people—nothing <span class="glow">controls</span> me.<br>
+          मूवी, गाने, सोशल मीडिया, यहाँ तक कि लोग भी — कोई भी मुझे <span class="glow">कंट्रोल</span> नहीं करता।
+        </p>
+
+        <p>I’m not addicted to anything.<br>
+          मुझे किसी चीज़ की ऐसी <span class="highlight">आदत</span> नहीं जो मुझे चला रही हो।</p>
+
+        <p>I respect everyone—and especially your <span class="glow">privacy</span>.<br>
+          मैं हर किसी की इज़्ज़त करता हूँ — और खासतौर पर तुम्हारी <span class="glow">प्राइवेसी</span> की।</p>
+
+        <p>I’ve never taken any photo of you, from any app or angle.<br>
+          मैंने कभी तुम्हारी कोई <span class="highlight">फोटो</span> किसी ऐप या किसी एंगल से नहीं ली।</p>
+
+        <p>I never lie. Everything I’ve said is <span class="glow">true</span>.<br>
+          मैं कभी <span class="glow">झूठ</span> नहीं बोलता। जो भी कहा है, सब <span class="glow">सच</span> है।</p>
+
+        <p>Yes, once—out of curiosity—I did try to access the library's CCTV.<br>
+          हाँ, एक बार जिज्ञासा में मैंने लाइब्रेरी का CCTV एक्सेस करने की कोशिश की थी,</p>
+
+        <p>But the same day, my laptop crashed... because I forgot to use the pendrive.<br>
+          लेकिन उसी दिन मेरा लैपटॉप क्रैश हो गया… क्योंकि मैं <span class="highlight">पेनड्राइव</span> लगाना भूल
+          गया था।</p>
+
+        <p>Since then, I never tried again.<br>
+          उसके बाद कभी दोबारा <span class="highlight">कोशिश</span> नहीं की।</p>
+
+        <p>That’s all I can say…<br>
+          बस... इससे ज़्यादा कुछ कह नहीं सकता।</p>
+
+        <p><span class="glow">Thank you. / धन्यवाद।</span></p>
+
+      </div>
+
+      <script>
+        function toggleMessage() {
+          const message = document.getElementById("message-container");
+          const button = document.getElementById("toggleBtn");
+          if (message.style.display === "none") {
+            message.style.display = "block";
+            button.innerText = "Show Less";
+          } else {
+            message.style.display = "none";
+            button.innerText = "5 days before";
+          }
+        }
+      </script>
+
+    </body>
+
+    </html>
+    <br>
+    <br>
+    <br> click on 5 day for more
+    <br>
+    Please just <span class="glow5">read this whole message once</span>—no rush, no pressure.<br>
+    This is just a <span class="glow1">demo</span> — a glimpse of my thoughts.<br>
+    Because I don’t have your <span class="glow2">permission</span>, I’m not writing <span class="glow3">everything
+      right now</span>.<br><br>
+
+    Just once, please <span class="glow5">forgive</span> me if I made you uncomfortable.<br>
+    This is a <span class="glow3">genuine request</span> — please don’t complain.<br><br>
+
+    Hi, I’m <span class="glow4">name nahi bat sakta</span>. I made this website <span class="glow1">honestly</span> to
+    talk to
+    you.<br>
+    I don’t even know your real name — just a <span class="glow2">wish</span> to know.<br><br>
+
+    You don’t have to say your full name. Just tell me — is the first letter <span class="glow5">R</span>, <span
+      class="glow5">L</span>, <span class="glow5">S</span>, <span class="glow5">P</span>, <span class="glow5">A</span>,
+    or <span class="glow5">B</span>?<br>
+    If that feels personal, it’s okay. You can say <span class="glow2">‘no ’</span>.<br><br>
+
+
+    💙 <span class="glow1">Main Baat</span>: I feel a small <span class="glow2">attraction</span> towards you.<br>
+    This isn’t love — but your <span class="glow3">vibe</span> and presence feels nice.<br><br>
+
+    So I’m asking, with respect: <span class="glow4">Is this attraction one-sided?</span><br>
+    You can simply reply: <span class="glow5">Yes</span> or <span class="glow5">No</span>.<br>
+    Just like I’m being honest, I hope you’ll share your heart too. 💙<br><br>
+
+    And last — <span class="glow1">please don’t complain</span>. Honest, respectful, and waiting.
+  </div>
+
+  <script>
+    const captions = [
+      "🛑 <span class='glow'>Important Request</span> – <span class='glow'>Please don’t complain</span>. Everyone deserves a <span class='glow'>chance</span>.",
+      "I <span class='glow'>respect</span> everyone. I’m not here to hurt or cross limits.",
+      "Just once, please <span class='glow'>forgive</span> me if I made you uncomfortable.",
+      "This is a <span class='glow'>genuine request</span> — <span class='glow'>please don’t complain</span>.",
+      "Hi, I’m name. I made this website <span class='glow'>honestly</span> to talk to you.",
+      "I don’t even know your real name — just a <span class='glow'>wish</span> to know.",
+      "You don’t have to say your full name. Just tell me — is the first letter R, L, S, P, A, or B?",
+      "If that feels personal, it’s okay. You can say <span class='glow'>‘no comment’</span>.",
+      "💙 <span class='glow'>Main Baat</span>: I feel a small <span class='glow'>attraction</span> towards you.",
+      "This isn’t love — but your <span class='glow'>vibe</span> and presence feels nice.",
+      "So I’m asking, with respect: <span class='glow'>Is this attraction one-sided?</span>",
+      "You can simply reply: <span class='glow'>Yes</span> or <span class='glow'>No</span>.",
+      "Just like I’m being honest, I hope you’ll share your heart too. 💙",
+      "and last — <span class='glow'>please do not complain</span>. Honest, respectful, and waiting."
+    ];
+
+    let index = 0;
+    let autoInterval;
+    let isAuto = true;
+
+    const captionBox = document.getElementById('captionBox');
+    const stopBtn = document.getElementById('stopBtn');
+    const glowClasses = ['glow1', 'glow2', 'glow3', 'glow4', 'glow5'];
+
+    function showCaption() {
+      captionBox.innerHTML = '';
+      const html = captions[index];
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      const nodes = Array.from(tempDiv.childNodes);
+      let wordsArray = [];
+
+      nodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          node.textContent.trim().split(/\s+/).forEach(w => {
+            if (w) wordsArray.push({ text: w, glow: false });
+          });
+        } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN') {
+          const glowClass = getRandomGlowClass();
+          node.textContent.trim().split(/\s+/).forEach(w => {
+            if (w) wordsArray.push({ text: w, glow: true, glowClass });
+          });
+        }
+      });
+
+      wordsArray.forEach((wordObj, i) => {
+        const span = document.createElement('span');
+        span.textContent = wordObj.text + ' ';
+        span.classList.add('word');
+        if (wordObj.glow) span.classList.add(wordObj.glowClass);
+        span.style.transitionDelay = (i * 0.15) + 's';
+        captionBox.appendChild(span);
+        setTimeout(() => span.style.opacity = '1', 50 + i * 150);
+      });
+    }
+
+    function getRandomGlowClass() {
+      return glowClasses[Math.floor(Math.random() * glowClasses.length)];
+    }
+
+    function nextCaption() {
+      if (index < captions.length - 1) {
+        index++;
+        showCaption();
+      }
+    }
+
+    function prevCaption() {
+      if (index > 0) {
+        index--;
+        showCaption();
+      }
+    }
+
+    function toggleAuto() {
+      if (isAuto) {
+        clearInterval(autoInterval);
+        isAuto = false;
+        stopBtn.textContent = '▶ Resume';
+      } else {
+        autoInterval = setInterval(nextCaption, 5000);
+        isAuto = true;
+        stopBtn.textContent = '⏸ Stop';
+      }
+    }
+
+    function showFullText() {
+      document.getElementById('fullText').style.display = 'block';
+    }
+
+    showCaption();
+    autoInterval = setInterval(nextCaption, 5000);
+    function showFullText() {
+      document.getElementById('fullText').style.display = 'block';
+      alert("🙏 Please don’t complain, please. I’ve shared this with full honesty.click ok and see all ");
+    }
+
+  </script>
+
+
+</body>
+
+</html>
+
+<div class="btn-nav">
+  <button onclick="prevPage()">⟵ Previous</button>
+</div>
+</div>
+
+<script>
+  let currentPage = 1;
+
+  function showPage(pageNum) {
+    document.querySelectorAll('.page').forEach((page, index) => {
+      page.classList.remove('active');
+      if (index === pageNum - 1) {
+        page.classList.add('active');
+      }
+    });
+    currentPage = pageNum;
+  }
+
+  function nextPage() {
+    if (currentPage < 3) showPage(currentPage + 1);
+  }
+
+  function prevPage() {
+    if (currentPage > 1) showPage(currentPage - 1);
+  }
+
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Open Video on Click</title>
+  <style>
+    #videoPopup {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 90%;
+      max-width: 600px;
+      background: #000;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+      z-index: 999;
+    }
+
+    #videoPopup video {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    #openBtn {
+      display: block;
+      margin: 100px auto 50px;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #ff0055;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #openBtn:hover {
+      background-color: #e6004c;
+    }
+
+    #closeBtn {
+      margin-top: 20px;
+      padding: 6px 15px;
+      font-size: 14px;
+      background-color: #444;
+      color: rgb(255, 0, 0);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #closeBtn:hover {
+      background-color: #11ff11;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Button to open the video -->
+  <button id="openBtn">Open Video</button>
+
+  <!-- Hidden video popup -->
+  <div id="videoPopup">
+    <video id="myVideo" controls autoplay>
+      <source src="1.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+    <button id="closeBtn">Close Video</button>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('openBtn');
+    const videoPopup = document.getElementById('videoPopup');
+    const closeBtn = document.getElementById('closeBtn');
+    const myVideo = document.getElementById('myVideo');
+
+    openBtn.addEventListener('click', () => {
+      videoPopup.style.display = 'block';
+      myVideo.play();
+    });
+
+    closeBtn.addEventListener('click', () => {
+      myVideo.pause();
+      myVideo.currentTime = 0;
+      videoPopup.style.display = 'none';
+    });
+
+    // Auto-hide video after it ends
+    myVideo.addEventListener('ended', () => {
+      videoPopup.style.display = 'none';
+    });
+  </script>
+
+</body>
+
+</html>
+
+</body>
+
+</html>
